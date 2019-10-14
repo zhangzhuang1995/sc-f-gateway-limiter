@@ -1,0 +1,28 @@
+server:
+  port: 8081
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: limit_route
+        uri: http://httpbin.org:80/get
+        predicates:
+        - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+        filters:
+        - name: RequestRateLimiter #RequestRateLimiter限流过滤器
+          args:
+#            key-resolver: '#{@hostAddrKeyResolver}'
+#            key-resolver: '#{@uriKeyResolver}'
+            key-resolver: '#{@userKeyResolver}'
+            redis-rate-limiter.replenishRate: 1
+            redis-rate-limiter.burstCapatity: 1
+  application:
+    name: gateway-limiter
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+
+#burstCapacity，令牌桶总容量。
+#replenishRate，令牌桶每秒填充平均速率。
+#key-resolver，用于限流的键的解析器的 Bean 对象的名字。它使用 SpEL 表达式根据#{@beanName}从 Spring 容器中获取 Bean 对象。

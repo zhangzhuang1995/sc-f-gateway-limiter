@@ -15,7 +15,7 @@ spring:
 #            key-resolver: '#{@uriKeyResolver}'
             key-resolver: '#{@userKeyResolver}'
             redis-rate-limiter.replenishRate: 1
-            redis-rate-limiter.burstCapatity: 1
+            redis-rate-limiter.burstCapacity: 1
   application:
     name: gateway-limiter
   redis:
